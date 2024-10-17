@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<style>
+		body {
+			font-family: 'Arial', sans-serif;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			margin: 0;
+			background-color: #dcdbd0;
+			color: #0e081f;
+		}
+
+		button {
+			margin: 20px 5px;
+			padding: 3px;
+			background-color: #ded5f0;
+			border: 2px solid #5b5883;
+			border-radius: 10px;
+			font-size: 1.3em;
+			color: #070310;
+			transition: background-color 0.3s, color 0.3s;
+			cursor: pointer;
+		}
+
+		.button:hover {
+			background-color: #6baade;
+			color: #060615;
+		}
+
+		.flex-container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin-top: 20px;
+		}
+
+		.divlist {
+			background-color: #ceefd0;
+			margin: 5px;
+			padding: 10px;
+			border-radius: 5px;
+			width: 300px;
+			text-align: center;
+		}
+
+		input {
+			padding: 15px;
+			margin: 15px;
+			font-size: 15px;
+			color: #e55050;
+		}
+
+		.button-container {
+			display: flex;
+			justify-content: center;
+			margin: 20px 0;
+		}
+		.container {
+            background-color: #ffffff;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            width: 450px;
+        }
+	</style>
+</head>
+
+<body>
+	<h2>Subhani Shaik Builds List with Divs</h2>
+
+	<div class="container"><p><i>Enter the items below</i></p><input type="text" id="itemInput" placeholder="Enter an item"></div>
+	<div class="button-container">
+		<button onclick="addEnd()" class="button">Add End</button>
+		<button onclick="addFront()" class="button">Add Front</button>
+		<button onclick="remove()" class="button">Remove</button>
+		<button onclick="swap()" class="button">Swap</button>
+	</div>
+	<div class="flex-container" id="flexContainer">
+		<div class="divlist">Item 1</div>
+		<div class="divlist">Item 2</div>
+		<div class="divlist">Item 3</div>
+	</div>
+
+	<script>
+		function addEnd() {
+			const input = document.getElementById("itemInput").value;
+			const newDiv = document.createElement("div");
+			newDiv.innerHTML = input;
+			newDiv.className = "divlist";
+			document.getElementById("flexContainer").appendChild(newDiv);
+			document.getElementById("itemInput").value = "";
+		}
+
+		function addFront() {
+			const input = document.getElementById("itemInput").value;
+			const newDiv = document.createElement("div");
+			newDiv.innerHTML = input;
+			newDiv.className = "divlist";
+			const container = document.getElementById("flexContainer");
+			container.insertBefore(newDiv, container.firstChild);
+			document.getElementById("itemInput").value = "";
+		}
+
+		function remove() {
+			const divListItems = document.getElementsByClassName("divlist");
+			const length = divListItems.length;
+			if (length > 0) {
+				const middleIndex = Math.floor(length / 2);
+				divListItems[middleIndex].remove();
+			}
+		}
+
+		function swap() {
+			const container = document.getElementById("flexContainer");
+			const items = Array.from(container.getElementsByClassName("divlist"));
+			const itemCount = items.length;
+
+			if (itemCount < 2) {
+				alert("Not enough items to swap.");
+				return;
+			}
+
+
+			let index1 = Math.floor(Math.random() * itemCount);
+			let index2;
+			do {
+				index2 = Math.floor(Math.random() * itemCount);
+			} while (index1 === index2);
+
+
+			const element1 = items[index1];
+			const element2 = items[index2];
+
+
+			if (Math.abs(index1 - index2) === 1) {
+				if (index1 < index2) {
+					container.insertBefore(element2, element1);
+				} else {
+					container.insertBefore(element1, element2);
+				}
+			} else {
+
+				const next1 = element1.nextElementSibling;
+				const next2 = element2.nextElementSibling;
+				container.insertBefore(element1, next2);
+
+				if (next1) {
+					container.insertBefore(element2, next1);
+				} else {
+					container.appendChild(element2);
+				}
+			}
+		}
+	</script>
+</body>
+
+</html>
